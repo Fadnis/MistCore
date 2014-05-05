@@ -608,7 +608,7 @@ void Creature::Update(uint32 diff)
 
             bool bInCombat = isInCombat() && (!getVictim() ||                                        // if isInCombat() is true and this has no victim
                              !getVictim()->GetCharmerOrOwnerPlayerOrPlayerItself() ||                // or the victim/owner/charmer is not a player
-                             !getVictim()->GetCharmerOrOwnerPlayerOrPlayerItself()->isGameMaster()); // or the victim/owner/charmer is not a GameMaster
+                             !getVictim()->GetCharmerOrOwnerPlayerOrPlayerItself()->IsGameMaster()); // or the victim/owner/charmer is not a GameMaster
 
             /*if (m_regenTimer <= diff)
             {*/
@@ -868,7 +868,7 @@ bool Creature::isCanTrainingOf(Player* player, bool msg) const
 
     TrainerSpellData const* trainer_spells = GetTrainerSpells();
 
-    if ((!trainer_spells || trainer_spells->spellList.empty()) && GetCreatureTemplate()->trainer_type != TRAINER_TYPE_PETS)
+    if ((!trainer_spells || trainer_spells->spellList.empty()) && GetCreatureTemplate()->trainer_type != TRAINER_TYPE_PETS && GetCreatureTemplate()->trainer_type != TRAINER_TYPE_CLASS )
     {
         sLog->outError(LOG_FILTER_SQL, "Creature %u (Entry: %u) have UNIT_NPC_FLAG_TRAINER but have empty trainer spell list.",
             GetGUIDLow(), GetEntry());
@@ -1158,7 +1158,7 @@ void Creature::SaveToDB(uint32 mapid, uint32 spawnMask, uint32 phaseMask)
     stmt->setUInt32(index++, zoneId);
     stmt->setUInt32(index++, areaId);
     stmt->setUInt8(index++,  spawnMask);
-    stmt->setUInt16(index++, uint16(GetPhaseMask()));
+    stmt->setUInt32(index++, uint32(GetPhaseMask()));
     stmt->setUInt32(index++, displayId);
     stmt->setInt32(index++,  int32(GetEquipmentId()));
     stmt->setFloat(index++,  GetPositionX());
@@ -1718,7 +1718,7 @@ void Creature::setDeathState(DeathState s)
 
 void Creature::Respawn(bool force)
 {
-	Movement::MoveSplineInit(*this).Stop(true);
+    Movement::MoveSplineInit(*this).Stop(true);
     DestroyForNearbyPlayers();
 
     if (force)
@@ -2350,7 +2350,7 @@ void Creature::SetInCombatWithZone()
     {
         if (Player* player = i->getSource())
         {
-            if (player->isGameMaster())
+            if (player->IsGameMaster())
                 continue;
 
             if (player->isAlive())

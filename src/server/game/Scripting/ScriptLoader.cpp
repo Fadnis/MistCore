@@ -137,9 +137,12 @@ void AddSC_boss_flamegor();
 void AddSC_boss_chromaggus();
 void AddSC_boss_nefarian();
 void AddSC_boss_victor_nefarius();
+
 void AddSC_boss_mr_smite();
+void AddSC_boss_glubtok();
 void AddSC_deadmines();                      //Deadmines
 void AddSC_instance_deadmines();
+
 void AddSC_gnomeregan();                     //Gnomeregan
 void AddSC_instance_gnomeregan();
 void AddSC_boss_attumen();                   //Karazhan
@@ -954,9 +957,9 @@ void AddEasternKingdomsScripts()
     AddSC_western_plaguelands();
     AddSC_westfall();
     AddSC_wetlands();
-	
-	//MaelStrom
-	AddSC_kezan();
+    
+    //MaelStrom
+    AddSC_kezan();
 #endif
 }
 
@@ -1348,8 +1351,8 @@ void AddPandarieScripts()
 
     AddSC_townlong_steppes();
     AddSC_dread_wastes();
-	AddSC_valley_of_the_four_winds();
-	AddSC_krasarang_wilds();
+    AddSC_valley_of_the_four_winds();
+    AddSC_krasarang_wilds();
     AddSC_jade_forest();
     AddSC_kun_lai_summit();
     AddSC_vale_of_eternal_blossoms();

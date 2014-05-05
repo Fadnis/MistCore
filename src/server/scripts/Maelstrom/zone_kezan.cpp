@@ -82,7 +82,7 @@ class npc_defiant_troll : public CreatureScript
 
         void SpellHit(Unit* caster, const SpellEntry* spell)
         {   
-	  if(!me->HasAura(SPELL_LIGHTNING_VISUAL)){                  
+      if(!me->HasAura(SPELL_LIGHTNING_VISUAL)){                  
             // Remove Aura from Player
             caster->RemoveAurasDueToSpell(SPELL_LIGHTNING_VISUAL);
 
@@ -121,15 +121,15 @@ class npc_defiant_troll : public CreatureScript
                 me->RemoveAllAuras();
                 // Add Aura to Troll (34830)
                 me->AddAura(SPELL_LIGHTNING_VISUAL, me);
-		  //me->DespawnOrUnsummon();
-		  work = true;
+          //me->DespawnOrUnsummon();
+          work = true;
                 if (GameObject* Deposit = me->FindNearestGameObject(GO_DEPOSIT, 20))
                     me->GetMotionMaster()->MovePoint(1, Deposit->GetPositionX()-1, Deposit->GetPositionY(), Deposit->GetPositionZ());
                 // Set timer here so he despawns in 2 minutes, set 2 sec aura timer
                 rebuffTimer = 120000; 
                 auraTimer = rebuffTimer - 2000;
             }
-	  }
+      }
         }
 
         void UpdateAI(const uint32 diff)
@@ -141,8 +141,8 @@ class npc_defiant_troll : public CreatureScript
                 if (rebuffTimer <= auraTimer)
                     me->RemoveAurasDueToSpell(SPELL_LIGHTNING_VISUAL);
             }else{
-		  me->AddAura(17743, me);
-	     }
+          me->AddAura(17743, me);
+         }
             if (rebuffTimer <= diff)
             {
                 // If working and timer hits 2 minutes, despawn
@@ -534,7 +534,7 @@ public:
                 player->CastSpell(player, SPELL_AWESOME_PARTY, false);
                 player->CastSpell(player, SPELL_OUTFIT_MALE, false);
                 player->CastSpell(player, SPELL_OUTFIT_SECONDARY, false);
-		 player->SetPhaseMask(2, false);
+         player->SetPhaseMask(2, false);
                 player->MonsterTextEmote("Estás vestido para impressionar! Usa os teus feitiços para fazer os nosso convidados felizes!", 0, true);
             }
             else
@@ -543,7 +543,7 @@ public:
                 player->CastSpell(player, SPELL_AWESOME_PARTY, false);
                 player->CastSpell(player, SPELL_OUTFIT_FEMALE, false);
                 player->CastSpell(player, SPELL_OUTFIT_SECONDARY, false);
-		  player->SetPhaseMask(2, false);
+          player->SetPhaseMask(2, false);
                 player->MonsterTextEmote("Estás vestido para impressionar! Usa os teus feitiços para fazer os nosso convidados felizes!", 0, true);
             }
         }
@@ -552,10 +552,10 @@ public:
 
     bool OnQuestComplete(Player* player, Creature* /*creature*/, Quest const* quest)
     {
-	 if(quest->GetQuestId() == 14110 || quest->GetQuestId() == 14109){
- 		player->SetPhaseMask(2, false);
-	 }
-	 if (quest->GetQuestId() == 14153 || quest->GetQuestId() == 14113)
+     if(quest->GetQuestId() == 14110 || quest->GetQuestId() == 14109){
+         player->SetPhaseMask(2, false);
+     }
+     if (quest->GetQuestId() == 14153 || quest->GetQuestId() == 14113)
         {
             if (player->getGender() == GENDER_MALE)
             {
@@ -570,10 +570,10 @@ public:
                 player->RemoveAurasDueToSpell(SPELL_OUTFIT_FEMALE);
                 player->RemoveAurasDueToSpell(SPELL_OUTFIT_SECONDARY);
              }
-	   player->SetPhaseMask(4, false);
-	 }
+       player->SetPhaseMask(4, false);
+     }
 
-	return true;
+    return true;
     }
 
 };
@@ -586,41 +586,31 @@ public:
     bool OnQuestAccept(Player* player, Creature* creature, const Quest* quest) 
     {
 
-		if (quest->GetQuestId() == 14115)
-        {
-	   //player->CastSpell(player, 59074, false);
-	   player->SetPhaseMask(4, false);
-        }
-	 if(quest->GetQuestId() == 14122){
-          //player->RemoveAurasDueToSpell(59074);
-	   player->SetPhaseMask(1, false);
-	 }
-	
-	 if (quest->GetQuestId() == 14153 || quest->GetQuestId() == 14113)
-	 {
-		 if (player->getGender() == GENDER_MALE)
-		 {
-			 player->CastSpell(player, SPELL_AWESOME_PARTY, true);
-			 player->CastSpell(player, SPELL_OUTFIT_MALE, true);
-			 player->CastSpell(player, SPELL_OUTFIT_SECONDARY, true);
-		 }
-		 else
-		 if (player->getGender() == GENDER_FEMALE)
-		 {
-			 player->CastSpell(player, SPELL_AWESOME_PARTY, true);
-			 player->CastSpell(player, SPELL_OUTFIT_FEMALE, true);
-			 player->CastSpell(player, SPELL_OUTFIT_SECONDARY, true);
-		 }
+     if (quest->GetQuestId() == 14153 || quest->GetQuestId() == 14113)
+     {
+         if (player->getGender() == GENDER_MALE)
+         {
+             player->CastSpell(player, SPELL_AWESOME_PARTY, true);
+             player->CastSpell(player, SPELL_OUTFIT_MALE, true);
+             player->CastSpell(player, SPELL_OUTFIT_SECONDARY, true);
+         }
+         else
+         if (player->getGender() == GENDER_FEMALE)
+         {
+             player->CastSpell(player, SPELL_AWESOME_PARTY, true);
+             player->CastSpell(player, SPELL_OUTFIT_FEMALE, true);
+             player->CastSpell(player, SPELL_OUTFIT_SECONDARY, true);
+         }
 
-	 }
+     }
         return true;
 
     }
 
-    bool OnQuestComplete(Player* player, Creature* /*creature*/, Quest const* quest) 
+    bool OnQuestReward(Player* player, Creature* creature, Quest const* quest, uint32 opt)
     {
 
-	 if (quest->GetQuestId() == 14153 || quest->GetQuestId() == 14113)
+     if (quest->GetQuestId() == 14153 || quest->GetQuestId() == 14113)
         {
             if (player->getGender() == GENDER_MALE)
             {
@@ -636,17 +626,9 @@ public:
                 player->RemoveAurasDueToSpell(SPELL_OUTFIT_SECONDARY);
              }
 
-	 }
+     }
 
-
-	 if(quest->GetQuestId() == 14122)
-	 {
-          //player->RemoveAurasDueToSpell(59074);
-	   player->SetPhaseMask(1, false);
-	 }
-	
-
-	return true;
+    return true;
     }
 
 };
@@ -661,7 +643,7 @@ public:
     {
         if (quest->GetQuestId() == 14121)
         {
-	   //player->SetPhaseMask(8, false);
+       //player->SetPhaseMask(8, false);
         }
         return true;
 
@@ -904,6 +886,7 @@ public:
 
         void SpellHit(Unit* caster, SpellInfo const* spell)
         {
+            printf("SpellHit\n");
             if (((caster->GetGUID() != PlayerGuid) || !caster->HasAura(SPELL_ENTER_VAULT)) || caster->GetTypeId() != TYPEID_PLAYER)
                 return;
 
@@ -1286,8 +1269,35 @@ public:
 };
 
 
+class npc_gas_bot : public CreatureScript
+{
+public:
+    npc_gas_bot() : CreatureScript("npc_gas_bot") { }
+
+    CreatureAI* GetAI(Creature* creature) const
+    {
+        return new npc_gas_botAI(creature);
+    }
+
+    struct npc_gas_botAI : public ScriptedAI
+    {
+        npc_gas_botAI(Creature* creature) : ScriptedAI(creature) {}
+    };
+
+    bool OnGossipHello(Player* player, Creature* creature)
+    {
+        if (player->GetQuestStatus(14125) == QUEST_STATUS_INCOMPLETE)
+        {
+            player->KilledMonsterCredit(37598);
+        }
+        return false;
+    }
+};
+
+
 void AddSC_kezan()
 {
+    new npc_gas_bot();
     new npc_fourth_and_goal_target();
     new npc_defiant_troll();
     new npc_hotrod();

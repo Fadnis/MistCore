@@ -2621,7 +2621,7 @@ void Spell::SendLoot(uint64 guid, LootType loottype)
     if (gameObjTarget)
     {
         // Players shouldn't be able to loot gameobjects that are currently despawned
-        if (!gameObjTarget->isSpawned() && !player->isGameMaster())
+        if (!gameObjTarget->isSpawned() && !player->IsGameMaster())
         {
             sLog->outError(LOG_FILTER_SPELLS_AURAS, "Possible hacking attempt: Player %s [guid: %u] tried to loot a gameobject [entry: %u id: %u] which is on respawn time without being in GM mode!",
                             player->GetName(), player->GetGUIDLow(), gameObjTarget->GetEntry(), gameObjTarget->GetGUIDLow());
@@ -3351,7 +3351,7 @@ void Spell::EffectDispel(SpellEffIndex effIndex)
             }
         }
     }
-	
+    
     WorldPacket dataSuccess(SMSG_SPELLDISPELLOG, 8+8+4+1+4+success_list.size()*5);
     // Send packet header
     dataSuccess.append(unitTarget->GetPackGUID());         // Victim GUID
@@ -5965,6 +5965,7 @@ void Spell::EffectCharge(SpellEffIndex /*effIndex*/)
         unitTarget->GetFirstCollisionPosition(pos, unitTarget->GetObjectSize(), angle);
 
         m_caster->GetMotionMaster()->MoveCharge(pos.m_positionX, pos.m_positionY, pos.m_positionZ + unitTarget->GetObjectSize());
+        m_caster->ModifyPower(POWER_RAGE, 20); // Add 20 Rage
     }
 
     if (effectHandleMode == SPELL_EFFECT_HANDLE_HIT_TARGET)
@@ -5975,6 +5976,12 @@ void Spell::EffectCharge(SpellEffIndex /*effIndex*/)
         // not all charge effects used in negative spells
         if (!m_spellInfo->IsPositive() && m_caster->GetTypeId() == TYPEID_PLAYER)
             m_caster->Attack(unitTarget, true);
+
+        if (!m_caster->HasAura(103828) && m_caster->GetTypeId() == TYPEID_PLAYER)
+            m_caster->CastSpell(unitTarget, 7922, true); // Add Charge Stun Spell = http://www.wowhead.com/spell=7922
+
+        if (m_caster->HasAura(103828) && m_caster->GetTypeId() == TYPEID_PLAYER)
+            m_caster->CastSpell(unitTarget, 105771, true); // Add Warbringer Spell = http://www.wowhead.com/spell=105771
     }
 }
 

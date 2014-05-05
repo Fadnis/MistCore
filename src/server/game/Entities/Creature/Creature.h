@@ -277,7 +277,7 @@ struct CreatureData
     uint16 mapid;
     uint16 zoneId;
     uint16 areaId;
-    uint16 phaseMask;
+    uint32 phaseMask;
     uint32 displayid;
     int32 equipmentId;
     float posX;
@@ -709,6 +709,7 @@ class Creature : public Unit, public GridObject<Creature>, public MapCreature
         bool hasInvolvedQuest(uint32 quest_id)  const;
 
         bool isRegeneratingHealth() { return m_regenHealth; }
+        void setRegeneratingHealth(bool regenHealth) { m_regenHealth = regenHealth; }
         virtual uint8 GetPetAutoSpellSize() const { return MAX_SPELL_CHARM; }
         virtual uint32 GetPetAutoSpellOnPos(uint8 pos) const
         {
